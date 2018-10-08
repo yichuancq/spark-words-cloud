@@ -16,7 +16,10 @@ public class SparkTestDemo {
         //环境
         System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin");
 
-        SparkConf conf = new SparkConf().setAppName("SparkTestDemo").setMaster("local[2]");
+        SparkConf conf = new SparkConf()
+                .setAppName("SparkTestDemo")
+                .setMaster("local[2]");
+
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
