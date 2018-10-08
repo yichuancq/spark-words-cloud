@@ -1,6 +1,8 @@
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.List;
@@ -42,11 +44,15 @@ public class WordCloudApp {
         //环境
         System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin");
         sparkSession = SparkSession.builder().appName("Spark2").master("local[2]").getOrCreate();
-        // sc = new JavaSparkContext();
 
-        //
         JavaRDD<Record> recordJavaRDD = loadData();
 
+        Dataset<Row> stuDf = sparkSession.createDataFrame(recordJavaRDD, Record.class);
+
+        stuDf.printSchema();
+        stuDf.createOrReplaceTempView("Record");
+        Dataset<Row> nameDf = sparkSession.sql("select * from Record");
+        nameDf.show();
         //close
         sparkSession.stop();
 

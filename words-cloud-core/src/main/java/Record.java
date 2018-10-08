@@ -18,6 +18,9 @@ public class Record implements Serializable {
      */
     private String msg;
 
+    public Record() {
+    }
+
     public Record(String stationId, String msg, Integer weight) {
         this.stationId = stationId;
         this.weight = weight;
