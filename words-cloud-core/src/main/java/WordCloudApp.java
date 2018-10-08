@@ -43,15 +43,23 @@ public class WordCloudApp {
     public static void main(String[] args) {
         //环境
         System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin");
-        sparkSession = SparkSession.builder().appName("Spark2").master("local[2]").getOrCreate();
-
+        //
+        sparkSession = SparkSession.builder()
+                .appName("Spark2")
+                .master("local[2]")
+                .getOrCreate();
+        //
         JavaRDD<Record> recordJavaRDD = loadData();
-
+        //
         Dataset<Row> stuDf = sparkSession.createDataFrame(recordJavaRDD, Record.class);
 
         stuDf.printSchema();
+        //
         stuDf.createOrReplaceTempView("Record");
-        Dataset<Row> nameDf = sparkSession.sql("select * from Record");
+        //
+        Dataset<Row> nameDf = sparkSession.sql("select msg, cast(count(msg) as int)" +
+                " as count from Record group by  msg order by count desc ");
+        //
         nameDf.show();
         //close
         sparkSession.stop();
