@@ -3,9 +3,12 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.sql.SparkSession;
 
+import java.util.List;
+
 public class WordCloudApp {
 
     private static SparkSession sparkSession;
+
     /**
      * 加载数据
      */
@@ -27,6 +30,11 @@ public class WordCloudApp {
         //System.out.println(n);
         // 遍历
         System.out.println(words.collect());
+        // RDD 转为集合
+        List<Record> resList = words.collect();
+        for (Record record : resList) {
+            System.out.println(record.toString());
+        }
         return words;
     }
 
