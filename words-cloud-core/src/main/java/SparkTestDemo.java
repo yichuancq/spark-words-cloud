@@ -53,14 +53,12 @@ public class SparkTestDemo {
         List<String> resList = res.collect();
         for (String str : resList)
             System.out.println(str);
-
         //输出样例
         //<4,<16,P>>
         //<2,<4,D>>
         //<1,<1,A>>
         //<3,<9,I>>
         //<5,<25,Y>>
-
         sc.stop();
 
     }
