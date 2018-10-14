@@ -15,7 +15,6 @@ object TFIDFDemo {
   val False: Boolean = False
 
   def main(args: Array[String]) {
-
     val conf = new SparkConf()
       .setMaster("local[4]")
       .setAppName("TFIDFDemo")
@@ -37,7 +36,7 @@ object TFIDFDemo {
     val choose = wordCount.take(5000)
     // 保存结果
     wordCount.saveAsTextFile("result_word_count.txt");
+    //
     choose.foreach(println)
-
   }
 }
