@@ -10,7 +10,8 @@ import scala.io.Source // rename
 object TFIDFDemo {
 
   //环境
-  System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin")
+  //System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin")
+  System.setProperty("hadoop.home.dir", "D:\\spark-2.2.1-bin-hadoop2.7")
   val False: Boolean = False
 
   /** *
@@ -35,8 +36,8 @@ object TFIDFDemo {
       .setMaster("local[4]")
       .setAppName("TFIDFDemo")
       .set("spark.hadoop.validateOutputSpecs", "false")
-      .set("spark.mongodb.input.uri", "mongodb://localhost:27017/test.test")
-      .set("spark.mongodb.output.uri", "mongodb://localhost:27017/test.test")
+      .set("spark.mongodb.input.uri", "mongodb://localhost:27017/test.my_word")
+      .set("spark.mongodb.output.uri", "mongodb://localhost:27017/test.my_word")
     val sc = new SparkContext(conf)
 
     val path = "result.txt"
@@ -70,7 +71,7 @@ object TFIDFDemo {
     //https://docs.mongodb.com/spark-connector/master/scala/write-to-mongodb/
     val documents = sc.parallelize(
       //
-      Seq(new Document("fruits", List(myWordList.toString).mkString(",")))
+      Seq(new Document("my_word", List(myWordList.toString).mkString(",")))
     )
     MongoSpark.save(documents)
 
