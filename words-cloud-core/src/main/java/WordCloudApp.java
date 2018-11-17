@@ -47,26 +47,26 @@ public class WordCloudApp {
      * @param ints
      * @return
      */
-    public static float getDoubleStrForCosValue(int[][] ints) {
-        BigDecimal fzSum = new BigDecimal(0);
-        BigDecimal fmSum = new BigDecimal(0);
-        int num = ints[0].length;
-        for (int i = 0; i < num; i++) {
-            BigDecimal adb = new BigDecimal(ints[0][i]).multiply(new BigDecimal(ints[1][i]));
-            fzSum = fzSum.add(adb);
-        }
-
-        BigDecimal seq1SumBigDecimal = new BigDecimal(0);
-        BigDecimal seq2SumBigDecimal = new BigDecimal(0);
-        for (int i = 0; i < num; i++) {
-            seq1SumBigDecimal = seq1SumBigDecimal.add(new BigDecimal(Math.pow(ints[0][i], 2)));
-            seq2SumBigDecimal = seq2SumBigDecimal.add(new BigDecimal(Math.pow(ints[1][i], 2)));
-        }
-        double sqrt1 = Math.sqrt(seq1SumBigDecimal.doubleValue());
-        double sqrt2 = Math.sqrt(seq2SumBigDecimal.doubleValue());
-        fmSum = new BigDecimal(sqrt1).multiply(new BigDecimal(sqrt2));
-        return fzSum.divide(fmSum, 10, RoundingMode.HALF_UP).floatValue();
-    }
+//    public static float getDoubleStrForCosValue(int[][] ints) {
+//        BigDecimal fzSum = new BigDecimal(0);
+//        BigDecimal fmSum = new BigDecimal(0);
+//        int num = ints[0].length;
+//        for (int i = 0; i < num; i++) {
+//            BigDecimal adb = new BigDecimal(ints[0][i]).multiply(new BigDecimal(ints[1][i]));
+//            fzSum = fzSum.add(adb);
+//        }
+//
+//        BigDecimal seq1SumBigDecimal = new BigDecimal(0);
+//        BigDecimal seq2SumBigDecimal = new BigDecimal(0);
+//        for (int i = 0; i < num; i++) {
+//            seq1SumBigDecimal = seq1SumBigDecimal.add(new BigDecimal(Math.pow(ints[0][i], 2)));
+//            seq2SumBigDecimal = seq2SumBigDecimal.add(new BigDecimal(Math.pow(ints[1][i], 2)));
+//        }
+//        double sqrt1 = Math.sqrt(seq1SumBigDecimal.doubleValue());
+//        double sqrt2 = Math.sqrt(seq2SumBigDecimal.doubleValue());
+//        fmSum = new BigDecimal(sqrt1).multiply(new BigDecimal(sqrt2));
+//        return fzSum.divide(fmSum, 10, RoundingMode.HALF_UP).floatValue();
+//    }
 
     /**
      * @param args
