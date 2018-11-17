@@ -1,8 +1,11 @@
+import java.io.PrintWriter
+import java.io.File
 import com.mongodb.spark.MongoSpark
 import org.ansj.recognition.impl.StopRecognition
 import org.ansj.splitWord.analysis.ToAnalysis
 import org.apache.spark.{SparkConf, SparkContext}
 import java.util.{ArrayList => JavaList}
+
 import scala.io.Source // rename
 /**
   * 中文词语特征值转换
@@ -10,8 +13,8 @@ import scala.io.Source // rename
 object TFIDFDemo {
 
   //环境
-  //System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin")
-  System.setProperty("hadoop.home.dir", "D:\\spark-2.2.1-bin-hadoop2.7")
+  System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin")
+  //System.setProperty("hadoop.home.dir", "D:\\spark-2.2.1-bin-hadoop2.7")
   val False: Boolean = False
 
   /** *
@@ -40,14 +43,16 @@ object TFIDFDemo {
       .set("spark.mongodb.output.uri", "mongodb://localhost:27017/test.my_word")
     val sc = new SparkContext(conf)
 
-    val path = "result.txt"
-    val line = sc.textFile(path)
+    val fromPath = "result.txt"
+    val savePath = "TF_IDF_File.txt"
+    val line = sc.textFile(fromPath)
     //
     val filter = new StopRecognition()
     filter.insertStopNatures("w") //过滤掉标点
     //加入停用词
     val file = Source.fromFile(raw"stopword.txt")
-    sc.textFile(path)
+    sc.textFile(fromPath)
+    //
     for (x <- file.getLines()) {
       filter.insertStopWords(x.toString())
     }
@@ -60,24 +65,39 @@ object TFIDFDemo {
     // java list
     val myWordList = new JavaList[MyWord]()
     // val mutableList = new mutable.MutableList[MyWord]()
+
+    //文件写入
+    val writer = new PrintWriter(new File("tf_idf_save.txt"))
+
     for (i <- 0 to (chooseArray.length - 1)) {
       //取程度大于2的值
       if (chooseArray(i)._2.length >= 2) {
         val myWord = new MyWord(chooseArray(i)._2, chooseArray(i)._1)
+        //遍历并保存
+        writer.println(chooseArray(i)._2,chooseArray(i)._1)
+        //保存在集合
         myWordList.add(myWord)
+
       }
     }
+    // 文件关闭
+    writer.close()
     import org.bson.Document
     //https://docs.mongodb.com/spark-connector/master/scala/write-to-mongodb/
     val documents = sc.parallelize(
       //
       Seq(new Document("my_word", List(myWordList.toString).mkString(",")))
     )
-    MongoSpark.save(documents)
-
+    //保存文件
+    //MongoSpark.save(documents)
+    // 读取文件
     val rdd = MongoSpark.load(sc)
-    println(rdd.count)
-    rdd.collect.foreach(println)
 
+    //打印记录数
+    println(rdd.count)
+    //循环打印
+    rdd.collect.foreach(println)
+    //save as text
+    rdd.saveAsTextFile(savePath)
   }
 }
