@@ -31,6 +31,7 @@ object TFIDFDemo {
       println(filed + "," + weigh);
     }
 
+
     override def toString = s"MyWord(filed=$filed, weigh=$weigh)"
   }
 
@@ -74,7 +75,7 @@ object TFIDFDemo {
       if (chooseArray(i)._2.length >= 2) {
         val myWord = new MyWord(chooseArray(i)._2, chooseArray(i)._1)
         //遍历并保存
-        writer.println(chooseArray(i)._2,chooseArray(i)._1)
+        writer.println(myWord.filed, myWord.weigh)
         //保存在集合
         myWordList.add(myWord)
 
