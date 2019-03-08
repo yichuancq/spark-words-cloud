@@ -14,7 +14,6 @@ object TFIDFDemo {
 
   //环境
   System.setProperty("hadoop.home.dir", "D:\\hadoop-common-2.2.0-bin")
-  //System.setProperty("hadoop.home.dir", "D:\\spark-2.2.1-bin-hadoop2.7")
   val False: Boolean = False
 
   /** *
