@@ -39,7 +39,7 @@ public class SparkTestDemo {
                 return new Tuple2<>(num, String.valueOf((char) (64 + num * num)));
             }
         });
-        JavaPairRDD<Integer, Tuple2<Integer, String>> joinRDD = firstRDD.join(secondRDD);
+        JavaPairRDD<Integer, Tuple2<Integer, String>> joinRDD = (JavaPairRDD<Integer, Tuple2<Integer, String>>) firstRDD.join(secondRDD);
         //将一组数据转化为RDD后，分别创造出两个PairRDD，然后再对两个PairRDD进行归约（即合并相同Key对应的Value
         JavaRDD<String> res = joinRDD.map(new Function<Tuple2<Integer, Tuple2<Integer, String>>, String>() {
             @Override
